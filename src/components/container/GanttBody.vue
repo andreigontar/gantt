@@ -32,7 +32,16 @@
         :style="{
           width: `${ganttColumnWidth}px`,
           left: `${ganttColumnWidth * i}px`,
-          backgroundColor: $styleBox.bodyStyle?.weekendColor || '#ddd'
+          backgroundColor: '#F4F4F4'
+          // backgroundColor: $styleBox.bodyStyle?.weekendColor || '#F4F4F4'
+        }"
+      ></div>
+      <div v-else
+        class="xg-gantt-body-date-line"
+        :style="{
+          width: `${ganttColumnWidth}px`,
+          left: `${ganttColumnWidth * i}px`,
+          borderRight: '1px solid #EEEEEE'
         }"
       ></div>
     </template>
@@ -44,7 +53,8 @@
       :style="{
         width: `${ganttColumnWidth}px`,
         left: `${todayLeft}px`,
-        backgroundColor: $styleBox.bodyStyle?.todayColor || '#87CEFA'
+        // backgroundColor: $styleBox.bodyStyle?.todayColor || '#87CEFA'
+        backgroundColor: '#E2FAE9'
       }"
     ></div>
 
@@ -61,7 +71,8 @@
         :style="{
           width: `${ganttColumnWidth}px`,
           left: `${calcLeft(date)}px`,
-          backgroundColor: holidays.color
+          // backgroundColor: holidays.color
+          backgroundColor: '#DFBEBB'
         }"
       ></div>
     </template>
@@ -110,6 +121,8 @@ const calcLeft = (date: XDate) => {
 
   .xg-gantt-row {
     z-index: 9;
+    display: flex;
+    align-items: center;
   }
 
   .xg-gantt-body-line-wrap {

@@ -259,12 +259,12 @@ defineExpose(exports);
   }
 
   .xg-mid-separate-line {
-    width: 3px;
+    width: 0px;
     height: 100%;
     max-height: 100%;
     display: inline-block;
     position: relative;
-    background-color: #e5e5e5;
+    background-color: #EEEEEE;
     transition: background-color 0.1s, box-shadow 0.1s;
     cursor: col-resize;
     z-index: 11;

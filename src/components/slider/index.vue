@@ -6,12 +6,14 @@
       left: `${sliderLeft}px`,
       width: `${sliderWidth}px`,
       maxHeight: `${$styleBox.rowHeight}px`,
-      height: height,
-      top:
-        height === '100%' ||
-        (!/%$/.test(height) && parseFloat(height) >= $styleBox.rowHeight)
-          ? 0
-          : `calc(calc(100% - ${height}) / 2)`
+      // height: height,
+      height: '20px',
+      // top:
+      //   height === '100%' ||
+      //   (!/%$/.test(height) && parseFloat(height) >= $styleBox.rowHeight)
+      //     ? 0
+      //     : `calc(calc(100% - ${height}) / 2)`
+      // top: '4px'
     }"
     @click.stop
     @pointerup="onPointerUp"
@@ -101,8 +103,9 @@
     </div>
 
     <!-- 创建连线的按钮 -->
+<!--    v-if="props.allowLink"-->
     <div
-      v-if="props.allowLink"
+      v-if="false"
       ref="outAnchorRef"
       :class="[
         'xg-slider-anchor',
@@ -160,7 +163,7 @@ const height = computed(() => {
 });
 
 const bgColor = computed(() => {
-  return props?.bgColor || '#eca710';
+  return props?.bgColor || '#FFEFE5';
 });
 
 const { toRowData, getProp } = useData();
@@ -394,17 +397,24 @@ const progressValue = computed(() => {
   position: absolute;
   transition: filter 0.2s;
   pointer-events: auto;
+  border-radius: 16px;
+  background: #FFEFE5;
 
   .xg-slider-block {
     overflow: hidden;
     position: relative;
     font-size: 12px;
     height: 100%;
+    border: 1px solid #E8CBC5;
+    border-radius: 16px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
 
     .xg-slider-content {
-      border-radius: 4px;
+      border-radius: 16px;
       height: 100%;
-      padding: 0 12px;
+      padding: 0 8px;
 
       .slider-text {
         height: 100%;
@@ -466,21 +476,21 @@ const progressValue = computed(() => {
   }
 
   &:hover {
-    filter: brightness(1.2);
-
-    .xg-slider-progress__default {
-      filter: grayscale(1) brightness(1.2);
-    }
-
-    .xg-slider-resize {
-      .resize-chunk {
-        opacity: 1;
-
-        &:hover {
-          filter: brightness(0.8) sepia(1);
-        }
-      }
-    }
+    //filter: brightness(1.2);
+    //
+    //.xg-slider-progress__default {
+    //  filter: grayscale(1) brightness(1.2);
+    //}
+    //
+    //.xg-slider-resize {
+    //  .resize-chunk {
+    //    opacity: 1;
+    //
+    //    &:hover {
+    //      filter: brightness(0.8) sepia(1);
+    //    }
+    //  }
+    //}
   }
 
   .xg-slider-anchor {

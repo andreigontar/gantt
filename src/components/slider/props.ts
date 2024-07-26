@@ -100,7 +100,7 @@ export default {
    */
   allowLink: {
     type: Boolean,
-    default: true
+    default: false
   },
 
   /**

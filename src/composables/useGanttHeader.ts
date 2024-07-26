@@ -10,6 +10,7 @@ export default () => {
 
   // 设置甘特日期头
   function setGanttHeaders() {
+
     store.ganttHeader.setDate(
       // 使用 window 的宽度减去 table 的宽度，就是最小需要的列数，再加一个阈值即可
       Math.ceil(

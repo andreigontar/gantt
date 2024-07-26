@@ -5,6 +5,7 @@ import { useStore } from '@/store';
 import { isString } from 'lodash';
 import { computed, type ExtractPropTypes, watch, type Ref } from 'vue';
 import useGanttHeader from './useGanttHeader';
+import moment from "moment/moment";
 
 export default () => {
   const store = useStore();
@@ -75,14 +76,19 @@ export default () => {
           return rest.reduce((acc, v) => acc[v], data.data[l]);
       }
     }
-
     return empty ?? Variables.noData;
   }
 
+  // TODO make it form at the beginning when generating
   return {
     $data: store.$data,
     initData,
-    dateList: computed(() => store.ganttHeader.headers),
+    dateList: computed(() => {
+      store.ganttHeader.headers[0].map((item, index) => {
+        store.ganttHeader.headers[0][index].isCurrentMonth = (moment(item.date.date).month() == moment(new Date()).month())
+      })
+      return store.ganttHeader.headers
+    }),
     toRowData,
     flattenData,
     getProp

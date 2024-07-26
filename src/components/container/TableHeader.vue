@@ -5,7 +5,8 @@
     :style="{
       height: `${$param.headerHeight}px`,
       color: $styleBox.headerStyle?.textColor,
-      backgroundColor: $styleBox.headerStyle?.bgColor || $styleBox.primaryColor
+      // backgroundColor: $styleBox.headerStyle?.bgColor || $styleBox.primaryColor
+      backgroundColor: 'white'
     }"
     cellpadding="0"
     cellspacing="0"

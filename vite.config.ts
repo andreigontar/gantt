@@ -2,15 +2,11 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import glob from 'fast-glob';
-import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [
-    vue(),
-    eslintPlugin({
-      include: ['src/**/*.js', 'src/**/*.vue', 'src/**/*.ts']
-    })
+    vue()
   ],
 
   resolve: {

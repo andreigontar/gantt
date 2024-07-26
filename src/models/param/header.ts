@@ -268,7 +268,7 @@ class GanttHeader extends Header {
     const start = this.start.date.getTime();
     const end = this.end.date.getTime();
 
-    // TODO 这里可以优化一下，直接一次循环就可以组成 headers。因为是固定格式
+    // TODO It can be optimized here, and the headers can be formed directly in one loop.Because it is a fixed format
     let s: number;
     for (s = start; s <= end; ) {
       const d = new XDate(s);
@@ -295,7 +295,7 @@ class GanttHeader extends Header {
         columns.push(
           new GanttColumn(
             date,
-            Variables.time.aggregation[this.unit] as DateUnit
+            Variables.time.aggregation[this.unit] as DateUnit,
           )
         );
         i++;

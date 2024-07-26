@@ -1,6 +1,6 @@
 // 所有的默认变量
 export const Variables = {
-  noData: '无数据 😢',
+  noData: 'no data',
 
   name: {
     root: 'XGantt',

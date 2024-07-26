@@ -1,7 +1,7 @@
 <template>
-  <div style="margin: 0 auto; width: 500px">
-    <img src="@/assets/logo.png" alt="" width="500" />
-  </div>
+<!--  <div style="margin: 0 auto; width: 500px">-->
+<!--    <img src="@/assets/logo.png" alt="" width="500" />-->
+<!--  </div>-->
 
   <div
     style="
@@ -15,13 +15,13 @@
       :style="{ backgroundColor: !isMulti ? 'aqua' : '' }"
       @click="() => (isMulti = false)"
     >
-      单页
+      Single page
     </button>
     <button
       :style="{ backgroundColor: isMulti ? 'aqua' : '' }"
       @click="() => (isMulti = true)"
     >
-      多页
+      Multi-page
     </button>
   </div>
 
@@ -29,8 +29,15 @@
   <!-- 原因：1、加载数据过多，对页面不友好 -->
   <!--      2、内部不会响应变化，导致初次加载未显示的图表数据加载不全（因为组件高度为 0） -->
   <!-- 使用 v-if 可以避免上面问题。但是如果数据量大，每次切换会有等待时间，同样值得解决 -->
-  <div v-if="!isMulti" aria-label="单页">
+  <div v-if="!isMulti" aria-label="one page">
     <div style="height: 400px; padding-bottom: 10px">
+<!--      :holidays="[-->
+<!--      { date: '2023-8-5', color: '#f00' },-->
+<!--      { date: '2023-8-8', color: 'green' }-->
+<!--      ]"-->
+
+      <pre>{{dataList}}</pre>
+
       <XGantt
         ref="gantt"
         header-height="48"
@@ -40,17 +47,13 @@
         end-key="endTime"
         expand-all
         highlight-date
-        locale="zh-cn"
+        locale="en-US"
         :dark="isDark"
         :gantt-column-size="colSize"
         :show-checkbox="showCheckbox"
         :show-weekend="showWeekend"
         :show-today="showToday"
         :show-expand="showExpand"
-        :holidays="[
-          { date: '2023-8-5', color: '#f00' },
-          { date: '2023-8-8', color: 'green' }
-        ]"
         :data="dataList"
         :unit="unit"
         :links="linkList"
@@ -66,17 +69,8 @@
         @add-link="onAddLink"
         @no-date-error="noDateError"
       >
-        <!-- 无效 slot -->
-        <template>
-          <div>123</div>
-        </template>
 
-        <!-- 无效 slot -->
-        <div>a</div>
-
-        <!-- 无效 slot -->
-        <div>b</div>
-
+<!--        :progress="useProgress"-->
         <XGanttSlider
           prop="startTime"
           date-format="MM-dd H:mm:s"
@@ -85,93 +79,88 @@
           :resize-left="true"
           :resize-right="true"
           :linked-resize="true"
-          :progress="useProgress"
           progress-decimal
           move-by-unit
         >
-          <!-- <template v-slot="row">
-          <div>{{ row.name }}</div>
-        </template> -->
-          <template #content="{ row, level }">
-            <div v-if="level === 1" class="slider-level-one"></div>
-            <!-- <div v-else style="background-color: #123456; height: 5px"></div> -->
-          </template>
-          <!-- <template #left>
-          <div style="background-color: #123456; width: 5px; height: 10px" />
+         <template #content="{row}">
+          <div>{{ row.client }}</div>
         </template>
-        <template #right>
-          <div style="background-color: #123456; width: 5px; height: 10px" />
-        </template> -->
+<!--          <template #content="{ row, level }">-->
+<!--            <div v-if="level === 1" class="slider-level-one"></div>-->
+<!--             <div v-else style="background-color: #123456; height: 5px"></div>-->
+<!--          </template>-->
         </XGanttSlider>
 
-        <XGanttColumn prop="id" :merge="merge3" width="150">
-          <template #default="{ row }">
-            <div style="background-color: #ccc; width: 100%">
-              {{ row.name }}
-            </div>
-          </template>
-        </XGanttColumn>
+        <XGanttColumn prop="name" width="200"></XGanttColumn>
 
-        <XGanttColumn prop="name" width="150" :merge="merge3">
-          <template #default="{ row }">
-            <div>2 - {{ row }}</div>
-          </template>
+<!--        <XGanttColumn prop="id" :merge="merge3" width="150">-->
+<!--          <template #default="{ row }">-->
+<!--            <div style="background-color: #ccc; width: 100%">-->
+<!--              {{ row.name }}-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </XGanttColumn>-->
 
-          <template #title="data">
-            <div>
-              <div>name---{{ data }}</div>
-              <div>line2</div>
-              <!-- <div>{{ a }}</div> -->
-            </div>
-          </template>
-        </XGanttColumn>
+<!--        <XGanttColumn prop="name" width="150" :merge="merge3">-->
+<!--          <template #default="{ row }">-->
+<!--            <div>2 - {{ row }}</div>-->
+<!--          </template>-->
 
-        <XGanttColumn
-          prop="ttt.a"
-          :merge="merge5"
-          column-style="backgroundColor: #cde; padding-left: 10px"
-          column-class="test-class"
-        />
+<!--          <template #title="data">-->
+<!--            <div>-->
+<!--              <div>name-&#45;&#45;{{ data }}</div>-->
+<!--              <div>line2</div>-->
+<!--              &lt;!&ndash; <div>{{ a }}</div> &ndash;&gt;-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </XGanttColumn>-->
 
-        <XGanttColumn prop="bbb" :merge="merge5">
-          <template #default>
-            <div v-for="i in 100" :key="i">
-              {{ i }}
-            </div>
-          </template>
-        </XGanttColumn>
+<!--        <XGanttColumn-->
+<!--          prop="ttt.a"-->
+<!--          :merge="merge5"-->
+<!--          column-style="backgroundColor: #cde; padding-left: 10px"-->
+<!--          column-class="test-class"-->
+<!--        />-->
 
-        <XGanttColumn label="时间">
-          <template #title="data">
-            <div style="padding: 12px 0">time from slot - {{ data }}</div>
-          </template>
+<!--        <XGanttColumn prop="bbb" :merge="merge5">-->
+<!--          <template #default>-->
+<!--            <div v-for="i in 100" :key="i">-->
+<!--              {{ i }}-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </XGanttColumn>-->
 
-          <XGanttColumn prop="startTime" width="150" center :merge="merge4" />
+<!--        <XGanttColumn label="时间">-->
+<!--          <template #title="data">-->
+<!--            <div style="padding: 12px 0">time from slot - {{ data }}</div>-->
+<!--          </template>-->
 
-          <x-gantt-column
-            prop="endTime"
-            label="自定义标签"
-            width="150"
-            date-format="q yyyy-MM-dd HH:mm:ss"
-            :merge="merge4"
-          >
-            <template #default="{ row }">
-              <div :style="{ backgroundColor: `#${555}`, color: '#789' }">
-                abc - {{ row }}
-              </div>
-            </template>
+<!--          <XGanttColumn prop="startTime" width="150" center :merge="merge4" />-->
 
-            <template v-slot:title="data">
-              <span>end time-{{ data }}</span>
-            </template>
-          </x-gantt-column>
-        </XGanttColumn>
+<!--          <x-gantt-column-->
+<!--            prop="endTime"-->
+<!--            label="自定义标签"-->
+<!--            width="150"-->
+<!--            date-format="q yyyy-MM-dd HH:mm:ss"-->
+<!--            :merge="merge4"-->
+<!--          >-->
+<!--            <template #default="{ row }">-->
+<!--              <div :style="{ backgroundColor: `#${555}`, color: '#789' }">-->
+<!--                abc - {{ row }}-->
+<!--              </div>-->
+<!--            </template>-->
 
-        <XGanttColumn prop="picture12345" :merge="merge5" ellipsis>
-          <template #default="{ row }">
-            👀😃✨✔🐱‍🚀🐱‍👓 {{ row.ttt.b }}
-          </template>
-        </XGanttColumn>
+<!--            <template v-slot:title="data">-->
+<!--              <span>end time-{{ data }}</span>-->
+<!--            </template>-->
+<!--          </x-gantt-column>-->
+<!--        </XGanttColumn>-->
+
+<!--        <XGanttColumn prop="picture12345" :merge="merge5" ellipsis>-->
+<!--          <template #default="{ row }">-->
+<!--            🐱‍👓 {{ row.ttt.b }}-->
+<!--          </template>-->
+<!--        </XGanttColumn>-->
       </XGantt>
     </div>
 
@@ -192,8 +181,8 @@
     <button @click="() => (showToday = !showToday)">显示today</button>
     <button @click="() => (showExpand = !showExpand)">显示expand</button>
     <button @click="() => (draggable = !draggable)">拖拽</button>
-    <button @click="setSelected">设置选择</button>
-    <button @click="jumpTo">跳转到</button>
+    <button @click="setSelected">set Selected</button>
+    <button @click="jumpTo">jump to</button>
     <input type="range" name="" id="" min="20" max="70" v-model="rowHeight1" />
     <div style="display: inline-block">
       选择列宽
@@ -212,58 +201,58 @@
         <em>prop="name" date-format="MM-dd H:mm:ss"</em>
       </div>
       <div style="height: 200px; padding-bottom: 10px">
-        <XGantt
-          ref="gantt2"
-          header-height="60"
-          :row-height="rowHeight2"
-          data-id="index"
-          expand-all
-          :dark="isDark2"
-          :gantt-column-size="colSize2"
-          :show-checkbox="showCheckbox2"
-          :show-weekend="showWeekend2"
-          :show-today="showToday2"
-          :show-expand="showExpand2"
-          :unit="unit2"
-          :data="dataList2"
-          :links="linkList2"
-          :header-style="headerStyle2"
-          :body-style="bodyStyle2"
-          :level-color="levelColor2"
-          @row-click="rowClick"
-          @row-dbl-click="rowDblClick"
-          @row-checked="rowChecked"
-          @move-slider="moveSlider"
-          @add-link="onAddLink2"
-          @no-date-error="noDateError"
-        >
-          <XGanttSlider prop="name" date-format="MM-dd H:mm:ss" empty-data="" />
+<!--        <XGantt-->
+<!--          ref="gantt2"-->
+<!--          header-height="60"-->
+<!--          :row-height="rowHeight2"-->
+<!--          data-id="index"-->
+<!--          expand-all-->
+<!--          :dark="isDark2"-->
+<!--          :gantt-column-size="colSize2"-->
+<!--          :show-checkbox="showCheckbox2"-->
+<!--          :show-weekend="showWeekend2"-->
+<!--          :show-today="showToday2"-->
+<!--          :show-expand="showExpand2"-->
+<!--          :unit="unit2"-->
+<!--          :data="dataList2"-->
+<!--          :links="linkList2"-->
+<!--          :header-style="headerStyle2"-->
+<!--          :body-style="bodyStyle2"-->
+<!--          :level-color="levelColor2"-->
+<!--          @row-click="rowClick"-->
+<!--          @row-dbl-click="rowDblClick"-->
+<!--          @row-checked="rowChecked"-->
+<!--          @move-slider="moveSlider"-->
+<!--          @add-link="onAddLink2"-->
+<!--          @no-date-error="noDateError"-->
+<!--        >-->
+<!--          <XGanttSlider prop="name" date-format="MM-dd H:mm:ss" empty-data="" />-->
 
-          <XGanttColumn prop="index" :merge="merge3">
-            <template #default="{ row }">
-              <div style="background-color: #ccc; width: 100%">
-                {{ row.name }}
-              </div>
-            </template>
-          </XGanttColumn>
+<!--          <XGanttColumn prop="index" :merge="merge3">-->
+<!--            <template #default="{ row }">-->
+<!--              <div style="background-color: #ccc; width: 100%">-->
+<!--                {{ row.name }}-->
+<!--              </div>-->
+<!--            </template>-->
+<!--          </XGanttColumn>-->
 
-          <x-gantt-column
-            prop="endDate"
-            label="自定义标签"
-            width="200"
-            date-format="q yyyy-MM-dd HH:mm:ss"
-            :merge="merge4"
-          >
-            <template #default="{ row }">
-              <span
-                name="end"
-                :style="{ backgroundColor: `#${555}`, color: '#789' }"
-              >
-                abc - {{ row.endDate }}
-              </span>
-            </template>
-          </x-gantt-column>
-        </XGantt>
+<!--          <x-gantt-column-->
+<!--            prop="endDate"-->
+<!--            label="自定义标签"-->
+<!--            width="200"-->
+<!--            date-format="q yyyy-MM-dd HH:mm:ss"-->
+<!--            :merge="merge4"-->
+<!--          >-->
+<!--            <template #default="{ row }">-->
+<!--              <span-->
+<!--                name="end"-->
+<!--                :style="{ backgroundColor: `#${555}`, color: '#789' }"-->
+<!--              >-->
+<!--                abc - {{ row.endDate }}-->
+<!--              </span>-->
+<!--            </template>-->
+<!--          </x-gantt-column>-->
+<!--        </XGantt>-->
       </div>
 
       <div>total: {{ dataList2.length }}</div>
@@ -391,15 +380,6 @@
       </div>
     </div>
   </div>
-
-  <div class="tip-text">按 F12 打开控制台以查看事件输出内容。</div>
-
-  <div class="code-link">
-    该页面源代码在
-    <a href="https://github.com/jeremyjone/jz-gantt/blob/master/src/App.vue"
-      >这里</a
-    >
-  </div>
 </template>
 
 <script lang="ts">
@@ -425,7 +405,7 @@ export default defineComponent({
       showToday: true,
       showExpand: true,
       draggable: false,
-      levelColor: ['azure', 'cornsilk'] as string[],
+      // levelColor: ['white', 'cornsilk'] as string[],
       headerStyle: {
         bgColor: '',
         textColor: ''
@@ -494,144 +474,168 @@ export default defineComponent({
 
   created() {
     // 测试数据
-    let s = 2;
-    let e = 15;
-    for (let i = 0; i < 1000; i++) {
-      if (s > e) {
-        let t = s;
-        s = e;
-        e = t;
-      }
-      this.dataList.push({
-        id: INDEX++,
-        startTime: `2023-08-${s++}`,
-        endTime: `2023-08-${e++}`,
-        ttt: {
-          a: 'aaa',
-          b: 'bbb'
-        },
-        name: '我的数据: ' + INDEX
-      });
-      if (s > 30) s = 2;
-      if (e > 30) e = 5;
-    }
+
+    this.dataList.push({
+      startTime: `2024-07-24`,
+      endTime: `2024-08-02`,
+      blocked: false,
+      client: 'Taqweem Aisha Dien (4)',
+      name: 'AL -GEN-4XR49'
+    });
+    this.dataList.push({
+      startTime: `2024-06-24`,
+      endTime: `2024-07-03`,
+      blocked: false,
+      client: 'Alise Mohamedow (6)',
+      name: 'AL -GEN-4XR49'
+    });
+    this.dataList.push({
+      startTime: `2024-07-30`,
+      endTime: `2024-08-05`,
+      blocked: false,
+      client: 'Alise Mohamedow (6)',
+      name: 'AL -GEN-4XR49'
+    });
+
+
+    // let s = 2;
+    // let e = 15;
+    // for (let i = 0; i < 1000; i++) {
+    //   if (s > e) {
+    //     let t = s;
+    //     s = e;
+    //     e = t;
+    //   }
+    //   // this.dataList.push({
+    //   //   id: INDEX++,
+    //   //   startTime: `2023-08-${s++}`,
+    //   //   endTime: `2023-08-${e++}`,
+    //   //   ttt: {
+    //   //     a: 'aaa',
+    //   //     b: 'bbb'
+    //   //   },
+    //   //   name: 'now date: ' + INDEX
+    //   // });
+    //   if (s > 30) s = 2;
+    //   if (e > 30) e = 5;
+    // }
     // 二级数据
-    for (let i = 0; i < 50; i++) {
-      if (s > e) {
-        let t = s;
-        s = e;
-        e = t;
-      }
-      [0, 1, 3, 4, 5, 7, 9].forEach(index => {
-        if (this.dataList[index]['children'] === undefined)
-          this.dataList[index]['children'] = [];
-
-        this.dataList[index]['children'].push({
-          id: INDEX++,
-          startTime: `2023-08-${s++}`,
-          endTime: `2023-08-${e++}`,
-          name: '子数据: ' + INDEX,
-          ttt: {
-            a: 's-aaa',
-            b: 's-bbb'
-          }
-        });
-      });
-      if (s > 30) s = 2;
-      if (e > 30) e = 5;
-    }
+    // for (let i = 0; i < 50; i++) {
+    //   if (s > e) {
+    //     let t = s;
+    //     s = e;
+    //     e = t;
+    //   }
+    //   [0, 1, 3, 4, 5, 7, 9].forEach(index => {
+    //     if (this.dataList[index]['children'] === undefined)
+    //       this.dataList[index]['children'] = [];
+    //
+    //     this.dataList[index]['children'].push({
+    //       id: INDEX++,
+    //       startTime: `2023-08-${s++}`,
+    //       endTime: `2023-08-${e++}`,
+    //       name: '子数据: ' + INDEX,
+    //       ttt: {
+    //         a: 's-aaa',
+    //         b: 's-bbb'
+    //       }
+    //     });
+    //   });
+    //   if (s > 30) s = 2;
+    //   if (e > 30) e = 5;
+    // }
     // 三级数据
-    for (let i = 0; i < 50; i++) {
-      if (s > e) {
-        let t = s;
-        s = e;
-        e = t;
-      }
-      [0, 2].forEach(index => {
-        if (this.dataList[0]['children'][index]['children'] === undefined)
-          this.dataList[0]['children'][index]['children'] = [];
-
-        this.dataList[0]['children'][index]['children'].push({
-          id: INDEX++,
-          startTime: `2023-08-${s++}`,
-          endTime: `2023-08-${e++}`,
-          name: '孙数据: ' + INDEX,
-          ttt: {
-            a: 'gs-aaa',
-            b: 'gs-bbb'
-          },
-          progress: Math.random()
-        });
-      });
-      if (s > 30) s = 2;
-      if (e > 30) e = 5;
-    }
+    // for (let i = 0; i < 50; i++) {
+    //   if (s > e) {
+    //     let t = s;
+    //     s = e;
+    //     e = t;
+    //   }
+    //   [0, 2].forEach(index => {
+    //     if (this.dataList[0]['children'][index]['children'] === undefined)
+    //       this.dataList[0]['children'][index]['children'] = [];
+    //
+    //     this.dataList[0]['children'][index]['children'].push({
+    //       id: INDEX++,
+    //       startTime: `2023-08-${s++}`,
+    //       endTime: `2023-08-${e++}`,
+    //       name: 'test: ' + INDEX,
+    //       ttt: {
+    //         a: 'gs-aaa',
+    //         b: 'gs-bbb'
+    //       },
+    //       // progress: Math.random()
+    //     });
+    //   });
+    //   if (s > 30) s = 2;
+    //   if (e > 30) e = 5;
+    // }
 
     // 添加2号数据
-    this.dataList2 = [
-      {
-        index: INDEX++,
-        startDate: '2023-04-28',
-        endDate: '2023-05-10',
-        name: '2号数据: 1'
-      },
-      {
-        index: INDEX++,
-        startDate: '2023-05-11',
-        endDate: '2023-05-20',
-        name: '2号数据: 2'
-      },
-      {
-        index: INDEX++,
-        startDate: '2023-05-21',
-        endDate: '2023-05-30',
-        name: '2号数据: 3'
-      }
-    ];
-
-    // 添加3号数据
-    this.dataList3 = [
-      {
-        uid: INDEX++,
-        startDate: '2023-10-01',
-        endDate: '2023-10-10',
-        name: '3号数据: 1',
-        ttt: {
-          a: 'aaa1',
-          b: 'bbb1'
-        }
-      },
-      {
-        uid: INDEX++,
-        startDate: '2023-10-11',
-        endDate: '2023-10-20',
-        name: '3号数据: 2',
-        ttt: {
-          a: 'aaa2',
-          b: 'bbb2'
-        }
-      },
-      {
-        uid: INDEX++,
-        startDate: '2023-10-21',
-        endDate: '2023-10-30',
-        name: '3号数据: 3',
-        ttt: {
-          a: 'aaa3',
-          b: 'bbb3'
-        }
-      },
-      {
-        uid: 4,
-        startDate: '2023-10-31',
-        endDate: '2023-11-10',
-        name: '3号数据: 4',
-        ttt: {
-          a: 'aaa4',
-          b: 'bbb4'
-        }
-      }
-    ];
+    // this.dataList2 = [
+    //   {
+    //     index: INDEX++,
+    //     startDate: '2023-04-28',
+    //     endDate: '2023-05-10',
+    //     name: '2号数据: 1'
+    //   },
+    //   {
+    //     index: INDEX++,
+    //     startDate: '2023-05-11',
+    //     endDate: '2023-05-20',
+    //     name: '2号数据: 2'
+    //   },
+    //   {
+    //     index: INDEX++,
+    //     startDate: '2023-05-21',
+    //     endDate: '2023-05-30',
+    //     name: '2号数据: 3'
+    //   }
+    // ];
+    //
+    // // 添加3号数据
+    // this.dataList3 = [
+    //   {
+    //     uid: INDEX++,
+    //     startDate: '2023-10-01',
+    //     endDate: '2023-10-10',
+    //     name: '3号数据: 1',
+    //     ttt: {
+    //       a: 'aaa1',
+    //       b: 'bbb1'
+    //     }
+    //   },
+    //   {
+    //     uid: INDEX++,
+    //     startDate: '2023-10-11',
+    //     endDate: '2023-10-20',
+    //     name: '3号数据: 2',
+    //     ttt: {
+    //       a: 'aaa2',
+    //       b: 'bbb2'
+    //     }
+    //   },
+    //   {
+    //     uid: INDEX++,
+    //     startDate: '2023-10-21',
+    //     endDate: '2023-10-30',
+    //     name: '3号数据: 3',
+    //     ttt: {
+    //       a: 'aaa3',
+    //       b: 'bbb3'
+    //     }
+    //   },
+    //   {
+    //     uid: 4,
+    //     startDate: '2023-10-31',
+    //     endDate: '2023-11-10',
+    //     name: '3号数据: 4',
+    //     ttt: {
+    //       a: 'aaa4',
+    //       b: 'bbb4'
+    //     }
+    //   }
+    // ];
   },
 
   methods: {
@@ -871,7 +875,7 @@ export default defineComponent({
     },
 
     jumpTo() {
-      (this.$refs.gantt as any).jumpToDate();
+      (this.$refs.gantt as any).jumpToDate('2024-07-01');
     },
 
     setHeaderUnit(unit: 'day' | 'week' | 'month') {
@@ -1202,6 +1206,31 @@ export default defineComponent({
 </script>
 
 <style>
+@font-face {
+  font-family: "Tajawal";
+  src: url('@/assets/font/Tajawal-Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+
+*, body {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 400;
+  color: #161616;
+}
+
+.xg-scroll-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.xg-scroll-container::-webkit-scrollbar-track {
+  background: #F4F4F4;
+}
+.xg-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #A3A5A9;
+  border-radius: 20px;
+}
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
