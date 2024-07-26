@@ -1,1 +1,23 @@
+@font-face {
+    font-family: "Tajawal";
+    src: url('@/assets/font/Tajawal-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
 
+*, body {
+    font-family: "Tajawal", sans-serif;
+    font-weight: 400;
+    color: #161616;
+}
+
+.xg-scroll-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+.xg-scroll-container::-webkit-scrollbar-track {
+    background: #F4F4F4;
+}
+.xg-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #A3A5A9;
+    border-radius: 20px;
+}
